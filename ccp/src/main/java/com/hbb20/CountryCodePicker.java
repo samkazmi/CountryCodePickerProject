@@ -221,8 +221,13 @@ public class CountryCodePicker extends RelativeLayout {
         linearFlagBorder = (LinearLayout) holderView.findViewById(R.id.linear_flag_border);
         relativeClickConsumer = (RelativeLayout) holderView.findViewById(R.id.rlClickConsumer);
         codePicker = this;
-        if (attrs != null) {
-            applyCustomProperty(attrs);
+
+        try {
+            if (attrs != null) {
+                applyCustomProperty(attrs);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
         }
         relativeClickConsumer.setOnClickListener(countryCodeHolderClickListener);
     }
@@ -1720,7 +1725,7 @@ public class CountryCodePicker extends RelativeLayout {
      * For example for georgia it returns R.drawable.flag_georgia
      */
     @DrawableRes
-    public int getSelectedCountryFlagResourceId(){
+    public int getSelectedCountryFlagResourceId() {
         return getSelectedCountry().flagResID;
     }
 
@@ -1880,12 +1885,16 @@ public class CountryCodePicker extends RelativeLayout {
      * @param contentColor color to apply to text and down arrow
      */
     public void setContentColor(int contentColor) {
-        this.contentColor = contentColor;
-        textView_selectedCountry.setTextColor(this.contentColor);
+        try {
+            this.contentColor = contentColor;
+            textView_selectedCountry.setTextColor(this.contentColor);
 
-        //change arrow color only if explicit arrow color is not specified.
-        if (this.arrowColor == DEFAULT_UNSET) {
-            imageViewArrow.setColorFilter(this.contentColor, PorterDuff.Mode.SRC_IN);
+            //change arrow color only if explicit arrow color is not specified.
+            if (this.arrowColor == DEFAULT_UNSET) {
+                imageViewArrow.setColorFilter(this.contentColor, PorterDuff.Mode.SRC_IN);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -1895,13 +1904,17 @@ public class CountryCodePicker extends RelativeLayout {
      * @param arrowColor color to apply to text and down arrow
      */
     public void setArrowColor(int arrowColor) {
-        this.arrowColor = arrowColor;
-        if (this.arrowColor == DEFAULT_UNSET) {
-            if (contentColor != DEFAULT_UNSET) {
-                imageViewArrow.setColorFilter(this.contentColor, PorterDuff.Mode.SRC_IN);
+        try {
+            this.arrowColor = arrowColor;
+            if (this.arrowColor == DEFAULT_UNSET) {
+                if (contentColor != DEFAULT_UNSET) {
+                    imageViewArrow.setColorFilter(this.contentColor, PorterDuff.Mode.SRC_IN);
+                }
+            } else {
+                imageViewArrow.setColorFilter(this.arrowColor, PorterDuff.Mode.SRC_IN);
             }
-        } else {
-            imageViewArrow.setColorFilter(this.arrowColor, PorterDuff.Mode.SRC_IN);
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
         }
     }
 
